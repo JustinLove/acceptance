@@ -7,7 +7,7 @@
 
   // prevents eula from coming up
   if (model.showingEULA()) {
-    model.mode(2);
+    model.mode(1);
   }
 
   model.hasSetupInfo.subscribe(function() {
