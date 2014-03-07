@@ -6,7 +6,9 @@
   }
 
   // prevents eula from coming up
-  model.mode(1);
+  if (model.showingEULA()) {
+    model.mode(2);
+  }
 
   model.hasSetupInfo.subscribe(function() {
     setTimeout(login, 0)
