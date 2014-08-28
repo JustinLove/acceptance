@@ -1,25 +1,21 @@
 {
   "author": "wondible",
-  "build": "62350",
+  "build": "70289",
   "category": [
-    "in-game",
     "ui"
   ],
   "context": "client",
-  "date": "2014/03/07",
+  "date": "2014/08/28",
   "description": "By installing and using this mod you indicate your acceptance of the pre-release disclaimer.  So you don't have to do it EVERY... SINGLE... TIME... you start the game.",
   "display_name": "Acceptance",
-  "enabled": true,
   "forum": null,
-  "id": "acceptance",
   "identifier": "com.wondible.pa.acceptance",
   "priority": 100,
-  "requires": [],
   "scenes": {
     "start": [
       "coui://ui/mods/acceptance/acceptance.js"
     ]
   },
   "signature": "not yet implemented",
-  "version": "1.0.2"
+  "version": "1.1.0"
 }

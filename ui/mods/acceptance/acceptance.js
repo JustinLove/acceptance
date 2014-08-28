@@ -1,17 +1,65 @@
 (function() {
-  var login = function() {
-    if (model.hasCmdLineTicket() || model.useSteam()) {
-      model.ubernetLoginIn();
+  var acceptance = function() {
+    var login = function() {
+      if (model.hasCmdLineTicket() || model.useSteam()) {
+        model.ubernetLoginIn();
+      }
     }
+
+    // prevents eula from coming up
+    if (model.showingEULA()) {
+      model.mode(1);
+    }
+
+    model.hasSetupInfo.subscribe(function() {
+      setTimeout(login, 0)
+    })
   }
 
-  // prevents eula from coming up
-  if (model.showingEULA()) {
-    model.mode(1);
+  if (model['showingEULA']) acceptance()
+
+  var setupDialog = function() {
+    console.log('setup', $(".acceptance_dialog"))
+    console.log(model.buildVersion() != '70289')
+    $(".acceptance_dialog").dialog({
+      dialogClass: "no-close",
+      draggable: false,
+      resizable: false,
+      height: 400,
+      width: 600,
+      modal: true,
+      autoOpen: model.buildVersion() != '70289',
+      buttons: {
+          "EXIT": function () {
+              model.exit();
+          },
+          "LATER": function () {
+              $(this).dialog("close");
+          }
+      }
+    });
   }
 
-  model.hasSetupInfo.subscribe(function() {
-    setTimeout(login, 0)
-  })
+  //load html dynamically
+  var loadTemplate = function (element, url, model) {
+    element.load(url, function () {
+      console.log("Loading html " + url);
+      ko.applyBindings(model, element.get(0));
+      setupDialog()
+    });
+  };
 
+  var enableCanery = function() {
+    var container = $('<div id="insertion_point"></div>')
+    container.appendTo('body')
+    loadTemplate(container, 'coui://ui/mods/acceptance/warning.html', model);
+  }
+
+  console.log(model.buildVersion())
+
+  if (model.buildVersion()) {
+    enableCanery()
+  } else {
+    model.buildVersion.subscribe(enableCanery)
+  }
 })()
